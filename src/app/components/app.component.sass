@@ -1,0 +1,66 @@
+@use '../../variables/colors' as c
+@use '../../variables/fonts' as f
+
+.rules-btn
+  border: solid 2px c.$regular-white-color
+  padding-right: 30px
+  padding-left: 30px
+  padding-top: 10px
+  padding-bottom: 10px
+  margin-top: 50px
+  margin-bottom: 50px
+  border-radius: 5px
+  font-size: f.$medium-font
+  background-color: transparent
+  color: c.$regular-white-color
+
+.selector-container
+  margin-top: 50px
+  flex-grow: 1
+
+.rules-btn-container
+  display: flex
+  justify-content: center
+  align-items: center
+
+.global-container
+  padding-right: 25px
+  padding-left: 25px
+  padding-top: 25px
+  display: flex
+  height: 100vh
+  flex-direction: column
+  box-sizing: border-box
+
+.score-bar
+  height: 70px
+  border: 1px solid c.$regular-white-color
+  border-radius: 5px
+  padding: 20px
+  display: flex
+  justify-content: space-between
+
+.logo-image
+  height: 100%
+
+.score-container
+  display: flex
+  justify-content: center
+  align-items: center
+  flex-direction: column
+  background-color: c.$regular-white-color
+  border-radius: 10px
+  padding: 10px
+  padding-right: 20px
+  padding-left: 20px
+
+.score-label
+  display: block
+  color: c.$regular-blue-color
+  text-align: center
+  font-size: f.$small-font
+
+.score-number
+  font-size: f.$verylarge-font
+  color: c.$verydark-blue-color
+

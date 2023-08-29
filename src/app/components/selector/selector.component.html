@@ -1,0 +1,23 @@
+<div class="global-container">
+  <div
+    [style.width.px]="selectionPanelSize"
+    [style.height.px]="selectionPanelSize"
+    class="selection-menu-container"
+  >
+    <img class="pentagon-image" src="assets/images/bg-pentagon.svg" />
+    <div
+      class="selection-item"
+      [style.borderColor]="item.borderColor"
+      [style.color]="item.shadowColor"
+      [style.width.px]="selectionItemSize"
+      [style.height.px]="selectionItemSize"
+      [style.top.px]="item.ypos"
+      [style.left.px]="item.xpos"
+      *ngFor="let item of selectionItems"
+    >
+      <div class="selection-icon-container">
+        <img class="icon-item" [src]="item.url" />
+      </div>
+    </div>
+  </div>
+</div>
