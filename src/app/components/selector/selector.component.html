@@ -11,8 +11,8 @@
       [style.color]="item.shadowColor"
       [style.width.px]="selectionItemSize"
       [style.height.px]="selectionItemSize"
-      [style.top.px]="item.ypos"
-      [style.left.px]="item.xpos"
+      [style.top.px]="item.screenPosition.y"
+      [style.left.px]="item.screenPosition.x"
       *ngFor="let item of selectionItems"
     >
       <div class="selection-icon-container">
