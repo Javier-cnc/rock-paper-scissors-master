@@ -1,10 +1,12 @@
 @use '../../../variables/colors' as c
+@use '../../../variables/fonts' as f
 
 .global-container
   display: flex
   justify-content: center
   align-items: center
   height: 100%
+  width: 100%
 
 .pentagon-image
   width: 100%
@@ -13,33 +15,54 @@
 .selection-menu-container
   position: relative
 
-.selection-item
-  position: absolute
+.item-container
   top: 0px
   left: 0px
   position: absolute
   top: 0
   left: 0
-  border-radius: 50%
-  border: solid 12px black
-  box-shadow: 0px 2px 0px 1px
-  background-color: c.$regular-white-color
-  box-sizing: border-box
-.selection-item:hover
+
+.item-container:hover
   transform: scale(1.1)
   cursor: pointer
 
-.selection-icon-container
-  border-radius: 50%
-  box-sizing: border-box
-  width: 100%
-  height: 100%
+.choices-container
   display: flex
-  justify-content: center
-  align-items: stretch
-  padding: 15px
-  box-shadow: 0px -2px 1px 1px c.$regular-gray-color
+  justify-content: space-between
 
-.icon-item
-  flex-grow: 1
+.choice-item-container
+  flex: 1 1 auto
+  display: flex
+  flex-direction: column
+  align-items: center
 
+.veredict-container
+  display: flex
+  flex-direction: column
+  padding-left: 20px
+  padding-right: 20px
+  padding-top: 70px
+
+.result-text
+  font-size: f.$verylarge-font
+  text-align: center
+
+.replay-btn
+  background-color: c.$regular-white-color
+  padding: 20px
+  border: none
+  border-radius: 10px
+  color: c.$verydark-blue-color
+  margin-top: 20px
+  cursor: pointer
+  font-weight: bold
+
+.item-result-container
+  width: 120px
+  height: 120px
+
+.results-container
+  width: 100%
+
+.choice-label
+  margin-top: 20px

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Point } from '../../models/point.model';
+import { ApplicationState, FinalResult } from 'src/app/models/enum.model';
 @Component({
   selector: 'app-selector',
   templateUrl: './selector.component.html',
@@ -8,53 +9,64 @@ import { Point } from '../../models/point.model';
 export class SelectorComponent {
   selectionItems: {
     name: string;
-    url: string;
     screenPosition: Point;
-    borderColor: string;
-    shadowColor: string;
+    defeatedBy: string[];
   }[] = [
     {
       name: 'scissors',
-      url: 'assets/images/icon-scissors.svg',
       screenPosition: new Point(),
-      borderColor: '#eba921',
-      shadowColor: '#c86c19',
+      defeatedBy: ['rock', 'spock'],
     },
     {
       name: 'paper',
-      url: 'assets/images/icon-paper.svg',
       screenPosition: new Point(),
-      borderColor: '#5971f9',
-      shadowColor: '#2945c0',
+      defeatedBy: ['lizard', 'scissors'],
     },
     {
       name: 'rock',
-      url: 'assets/images/icon-rock.svg',
       screenPosition: new Point(),
-      borderColor: '#da405a',
-      shadowColor: '#b6213e',
+      defeatedBy: ['paper', 'spock'],
     },
     {
       name: 'lizard',
-      url: 'assets/images/icon-lizard.svg',
       screenPosition: new Point(),
-      borderColor: '#8d5de7',
-      shadowColor: '#6b3fba',
+      defeatedBy: ['rock', 'scissors'],
     },
     {
       name: 'spock',
-      url: 'assets/images/icon-spock.svg',
       screenPosition: new Point(),
-      borderColor: '#45bdce',
-      shadowColor: '#2c8eab',
+      defeatedBy: ['lizard', 'paper'],
     },
   ];
+
+  FinalResultEnum = FinalResult;
+  ApplicationStateEnum = ApplicationState;
+
+  // define the current state of the game
+  state: ApplicationState = ApplicationState.USER_PICKING;
+
+  // indicates the result of the game for the user
+  //  -false (the user lose)
+  //  -true (the user win)
+  finalResult: FinalResult = FinalResult.UNDEFINED;
+
+  // indicates the item selected by the user
+  userPickedItemName: string = 'lizard';
+
+  // indicates the item selected by the house
+  housePickedItemName: string = '';
 
   // define width and height for the selection panel
   selectionPanelSize: number = 200; // pixels
 
   // define width and height for the selection item inside the panel
   selectionItemSize: number = 85; // pixels
+
+  // represent the total score of the game
+  score: number = 0;
+
+  @Output()
+  scoreChanged: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {
     // define the position for each one of the selection items
@@ -99,5 +111,71 @@ export class SelectorComponent {
     coordinates.x = coordinates.x - ballDiameter / 2;
 
     return coordinates;
+  }
+  selectItem(itemName: string) {
+    // set the selected item
+    this.userPickedItemName = itemName;
+
+    // change the game status
+    this.state = ApplicationState.HOUSE_PICKING;
+
+    // set an interval of time in which the computer is going
+    // to complete its selection
+    setTimeout(() => {
+      // generate random index
+      var random = Math.random() * (this.selectionItems.length - 1);
+      this.housePickedItemName = this.selectionItems[Math.round(random)].name;
+
+      // check for a TIE
+      if (this.housePickedItemName === this.userPickedItemName) {
+        this.finalResult = FinalResult.TIE;
+      } else {
+        // determine the result of the contest
+        var userSelectedItem = this.selectionItems.find(
+          (item) => item.name === this.userPickedItemName
+        );
+        // check if the item picked by the house is in the list of elements who
+        // defeat the item picked by the user
+
+        var enemy = userSelectedItem?.defeatedBy.find(
+          (enemy) => enemy === this.housePickedItemName
+        );
+        // if the enemy exist, then the user loose, if not the user wins
+        // set the state of the application to final
+        this.finalResult = enemy ? FinalResult.LOST : FinalResult.WIN;
+
+        if (this.finalResult === FinalResult.WIN) {
+          this.score++;
+        } else if (this.score > 0 && this.finalResult === FinalResult.LOST) {
+          this.score--;
+        }
+      }
+
+      this.notifyScore();
+    }, 1000);
+  }
+
+  resetState() {
+    this.state = ApplicationState.USER_PICKING;
+    this.housePickedItemName = '';
+    this.userPickedItemName = '';
+    this.finalResult = FinalResult.UNDEFINED;
+  }
+
+  notifyScore() {
+    this.scoreChanged.emit(this.score);
+  }
+
+  get FinalResultText(): string {
+    switch (this.finalResult) {
+      case FinalResult.LOST:
+        return 'LOST';
+      case FinalResult.WIN:
+        return 'WIN';
+      case FinalResult.TIE:
+        return 'TIE';
+      default:
+        return '';
+    }
   }
 }

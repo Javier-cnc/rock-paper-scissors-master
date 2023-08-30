@@ -1,0 +1,13 @@
+<div
+  *ngIf="ItemIndex != -1; else placeholder"
+  class="selection-item"
+  [style.borderColor]="itemTypes[ItemIndex].borderColor"
+  [style.color]="itemTypes[ItemIndex].shadowColor"
+>
+  <div class="selection-icon-container">
+    <img class="icon-item" [src]="itemTypes[ItemIndex].url" />
+  </div>
+</div>
+<ng-template #placeholder>
+  <div class="selection-item placeholder"></div>
+</ng-template>

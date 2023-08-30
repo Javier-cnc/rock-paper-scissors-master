@@ -1,23 +1,54 @@
 <div class="global-container">
   <div
+    *ngIf="state === ApplicationStateEnum.USER_PICKING"
     [style.width.px]="selectionPanelSize"
     [style.height.px]="selectionPanelSize"
     class="selection-menu-container"
   >
     <img class="pentagon-image" src="assets/images/bg-pentagon.svg" />
     <div
-      class="selection-item"
-      [style.borderColor]="item.borderColor"
-      [style.color]="item.shadowColor"
+      class="item-container"
       [style.width.px]="selectionItemSize"
       [style.height.px]="selectionItemSize"
       [style.top.px]="item.screenPosition.y"
       [style.left.px]="item.screenPosition.x"
       *ngFor="let item of selectionItems"
     >
-      <div class="selection-icon-container">
-        <img class="icon-item" [src]="item.url" />
+      <app-selection-item
+        (click)="selectItem(item.name)"
+        [item]="item.name"
+      ></app-selection-item>
+    </div>
+  </div>
+  <div
+    *ngIf="
+      state === ApplicationStateEnum.HOUSE_PICKING ||
+      state === ApplicationStateEnum.DONE
+    "
+    class="results-container"
+  >
+    <div class="choices-container">
+      <div class="choice-item-container">
+        <div class="item-result-container">
+          <app-selection-item [item]="userPickedItemName"></app-selection-item>
+        </div>
+        <span class="choice-label">YOU PICKED</span>
       </div>
+      <div class="choice-item-container">
+        <div class="item-result-container">
+          <app-selection-item [item]="housePickedItemName"></app-selection-item>
+        </div>
+        <span class="choice-label">THE HOUSE PICKED</span>
+      </div>
+    </div>
+    <div
+      [style.visibility]="
+        finalResult === FinalResultEnum.UNDEFINED ? 'collapse' : 'visible'
+      "
+      class="veredict-container"
+    >
+      <span class="result-text">YOU {{ FinalResultText }}</span>
+      <button class="replay-btn" (click)="resetState()">PLAY AGAIN</button>
     </div>
   </div>
 </div>
