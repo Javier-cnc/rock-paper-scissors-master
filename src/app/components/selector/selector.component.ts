@@ -62,9 +62,6 @@ export class SelectorComponent {
   // define width and height for the selection item inside the panel
   selectionItemSize: number = 85; // pixels
 
-  // represent the total score of the game
-  score: number = 0;
-
   @Output()
   scoreChanged: EventEmitter<number> = new EventEmitter<number>();
 
@@ -126,6 +123,8 @@ export class SelectorComponent {
       var random = Math.random() * (this.selectionItems.length - 1);
       this.housePickedItemName = this.selectionItems[Math.round(random)].name;
 
+      let scoreChange: number = 0;
+
       // check for a TIE
       if (this.housePickedItemName === this.userPickedItemName) {
         this.finalResult = FinalResult.TIE;
@@ -145,13 +144,13 @@ export class SelectorComponent {
         this.finalResult = enemy ? FinalResult.LOST : FinalResult.WIN;
 
         if (this.finalResult === FinalResult.WIN) {
-          this.score++;
-        } else if (this.score > 0 && this.finalResult === FinalResult.LOST) {
-          this.score--;
+          scoreChange = 1;
+        } else if (this.finalResult === FinalResult.LOST) {
+          scoreChange = -1;
         }
       }
 
-      this.notifyScore();
+      this.notifyScoreChange(scoreChange);
     }, 1000);
   }
 
@@ -162,8 +161,8 @@ export class SelectorComponent {
     this.finalResult = FinalResult.UNDEFINED;
   }
 
-  notifyScore() {
-    this.scoreChanged.emit(this.score);
+  notifyScoreChange(newChange: number) {
+    this.scoreChanged.emit(newChange);
   }
 
   get FinalResultText(): string {
