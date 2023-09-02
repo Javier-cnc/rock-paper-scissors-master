@@ -46,6 +46,7 @@
 .result-text
   font-size: f.$extralarge-font
   text-align: center
+  font-weight: bold
 
 .replay-btn
   background-color: c.$regular-white-color
@@ -57,12 +58,28 @@
   cursor: pointer
   font-weight: bold
 
-.item-result-container
-  width: 120px
-  height: 120px
-
 .results-container
   width: 100%
 
 .choice-label
   margin-top: 20px
+  margin-bottom: 20px
+  font-weight: bold
+
+.visible-for-large-screen
+  display: none
+.visible-for-small-screen
+  display: flex
+
+@media (min-width: 450px)
+  .choice-item-container
+    flex-direction: column-reverse
+
+  .choice-label
+    margin-bottom: 40px
+
+  .visible-for-large-screen
+    display: flex
+
+  .visible-for-small-screen
+    display: none

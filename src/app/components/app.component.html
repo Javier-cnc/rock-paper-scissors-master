@@ -1,25 +1,29 @@
-<div class="global-container">
-  <div class="score-bar">
-    <img class="logo-image" src="assets/images/logo-bonus.svg" />
-    <div class="score-container">
-      <span class="score-label">SCORE</span>
-      <span class="score-number">{{ score }}</span>
+<div class="app-container">
+  <div class="global-container">
+    <div class="score-bar">
+      <img class="logo-image" src="assets/images/logo-bonus.svg" />
+      <div class="score-container">
+        <span class="score-label">SCORE</span>
+        <span class="score-number">{{ score }}</span>
+      </div>
+    </div>
+    <div class="selector-container">
+      <app-selector (scoreChanged)="updateScore($event)"></app-selector>
+    </div>
+    <div class="rules-btn-container">
+      <button class="rules-btn" (click)="isRulesVisible = true">RULES</button>
     </div>
   </div>
-  <div class="selector-container">
-    <app-selector (scoreChanged)="updateScore($event)"></app-selector>
-  </div>
-  <div class="rules-btn-container">
-    <button class="rules-btn" (click)="isRulesVisible = true">RULES</button>
-  </div>
-</div>
 
-<div class="rules-container" *ngIf="isRulesVisible">
-  <h1 class="rules-header">RULES</h1>
-  <div class="rules-image-container">
-    <img class="rules-image" src="assets/images/image-rules-bonus.svg" />
+  <div class="rules-global-container" *ngIf="isRulesVisible">
+    <div class="rules-container">
+      <h1 class="rules-header">RULES</h1>
+      <div class="rules-image-container">
+        <img class="rules-image" src="assets/images/image-rules-bonus.svg" />
+      </div>
+      <button class="close-btn" (click)="isRulesVisible = false">
+        <img class="close-icon" src="assets/images/icon-close.svg" />
+      </button>
+    </div>
   </div>
-  <button class="close-btn" (click)="isRulesVisible = false">
-    <img class="close-icon" src="assets/images/icon-close.svg" />
-  </button>
 </div>

@@ -29,23 +29,43 @@
   >
     <div class="choices-container">
       <div class="choice-item-container">
-        <div class="item-result-container">
+        <div
+          class="item-result-container"
+          [style.width.px]="selectionItemSize * 1.5"
+          [style.height.px]="selectionItemSize * 1.5"
+        >
           <app-selection-item [item]="userPickedItemName"></app-selection-item>
         </div>
         <span class="choice-label">YOU PICKED</span>
       </div>
+      <!-- veredict container -->
+      <div
+        [style.visibility]="
+          finalResult === FinalResultEnum.UNDEFINED ? 'collapse' : 'visible'
+        "
+        class="veredict-container visible-for-large-screen"
+      >
+        <span class="result-text">YOU {{ FinalResultText }}</span>
+        <button class="replay-btn" (click)="resetState()">PLAY AGAIN</button>
+      </div>
+
       <div class="choice-item-container">
-        <div class="item-result-container">
+        <div
+          class="item-result-container"
+          [style.width.px]="selectionItemSize * 1.5"
+          [style.height.px]="selectionItemSize * 1.5"
+        >
           <app-selection-item [item]="housePickedItemName"></app-selection-item>
         </div>
         <span class="choice-label">THE HOUSE PICKED</span>
       </div>
     </div>
+    <!-- veredict container -->
     <div
       [style.visibility]="
         finalResult === FinalResultEnum.UNDEFINED ? 'collapse' : 'visible'
       "
-      class="veredict-container"
+      class="veredict-container visible-for-small-screen"
     >
       <span class="result-text">YOU {{ FinalResultText }}</span>
       <button class="replay-btn" (click)="resetState()">PLAY AGAIN</button>

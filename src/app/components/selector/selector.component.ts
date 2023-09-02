@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Point } from '../../models/point.model';
 import { ApplicationState, FinalResult } from 'src/app/models/enum.model';
 @Component({
@@ -39,6 +39,9 @@ export class SelectorComponent {
     },
   ];
 
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+
   FinalResultEnum = FinalResult;
   ApplicationStateEnum = ApplicationState;
 
@@ -49,6 +52,8 @@ export class SelectorComponent {
   //  -false (the user lose)
   //  -true (the user win)
   finalResult: FinalResult = FinalResult.UNDEFINED;
+
+  screenSizeStatus: 'SMALL' | 'BIG' = 'SMALL';
 
   // indicates the item selected by the user
   userPickedItemName: string = 'lizard';
@@ -66,16 +71,10 @@ export class SelectorComponent {
   scoreChanged: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {
-    // define the position for each one of the selection items
-    this.selectionItems.forEach((item, index) => {
-      let coordinates = this.getCoordinatesOfBall(
-        { x: this.selectionPanelSize / 2, y: this.selectionPanelSize / 2 },
-        this.selectionPanelSize / 2,
-        72 * index + 270,
-        this.selectionItemSize
-      );
-      item.screenPosition = coordinates;
-    });
+    // get the screen width the define the size of the elements
+    this.updateElementsSize();
+
+    this.calculateBallsPosition();
   }
 
   // calculate the coordinates of a ball using:
@@ -176,5 +175,44 @@ export class SelectorComponent {
       default:
         return '';
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowsResize() {
+    this.updateElementsSize();
+  }
+
+  updateElementsSize() {
+    this.getScreenWidth = window.innerWidth;
+
+    if (this.getScreenWidth < 450) {
+      if (this.screenSizeStatus === 'BIG') {
+        this.selectionPanelSize = 200;
+        this.selectionItemSize = 85;
+        // recalculate position of elements
+        this.calculateBallsPosition();
+        this.screenSizeStatus = 'SMALL';
+      }
+    } else {
+      if (this.screenSizeStatus === 'SMALL') {
+        this.selectionPanelSize = 200 * 1.5;
+        this.selectionItemSize = 85 * 1.5;
+        this.calculateBallsPosition();
+        this.screenSizeStatus = 'BIG';
+      }
+    }
+  }
+
+  calculateBallsPosition() {
+    // define the position for each one of the selection items
+    this.selectionItems.forEach((item, index) => {
+      let coordinates = this.getCoordinatesOfBall(
+        { x: this.selectionPanelSize / 2, y: this.selectionPanelSize / 2 },
+        this.selectionPanelSize / 2,
+        72 * index + 270,
+        this.selectionItemSize
+      );
+      item.screenPosition = coordinates;
+    });
   }
 }
