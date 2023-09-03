@@ -7,6 +7,10 @@ import { Input } from '@angular/core';
   styleUrls: ['./selection-item.component.sass'],
 })
 export default class SelectionItemComponent {
+  // used to define if ripple animation of current element is active or not
+  @Input()
+  animate: boolean = false;
+
   public itemTypes: {
     name: string;
     url: string;

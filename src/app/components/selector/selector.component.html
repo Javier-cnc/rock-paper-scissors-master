@@ -34,7 +34,10 @@
           [style.width.px]="selectionItemSize * 1.5"
           [style.height.px]="selectionItemSize * 1.5"
         >
-          <app-selection-item [item]="userPickedItemName"></app-selection-item>
+          <app-selection-item
+            [animate]="finalResult === FinalResultEnum.WIN"
+            [item]="userPickedItemName"
+          ></app-selection-item>
         </div>
         <span class="choice-label">YOU PICKED</span>
       </div>
@@ -55,7 +58,10 @@
           [style.width.px]="selectionItemSize * 1.5"
           [style.height.px]="selectionItemSize * 1.5"
         >
-          <app-selection-item [item]="housePickedItemName"></app-selection-item>
+          <app-selection-item
+            [animate]="finalResult === FinalResultEnum.LOST"
+            [item]="housePickedItemName"
+          ></app-selection-item>
         </div>
         <span class="choice-label">THE HOUSE PICKED</span>
       </div>

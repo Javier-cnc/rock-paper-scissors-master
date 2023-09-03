@@ -1,13 +1,27 @@
-<div
-  *ngIf="ItemIndex != -1; else placeholder"
-  class="selection-item"
-  [style.borderColor]="itemTypes[ItemIndex].borderColor"
-  [style.color]="itemTypes[ItemIndex].shadowColor"
->
-  <div class="selection-icon-container">
-    <img class="icon-item" [src]="itemTypes[ItemIndex].url" />
+<div class="global-container">
+  <div
+    *ngIf="ItemIndex != -1; else placeholder"
+    class="selection-item"
+    [style.borderColor]="itemTypes[ItemIndex].borderColor"
+    [style.color]="itemTypes[ItemIndex].shadowColor"
+  >
+    <div class="selection-icon-container">
+      <img class="icon-item" [src]="itemTypes[ItemIndex].url" />
+    </div>
   </div>
+  <div
+    [class.animating]="animate"
+    class="ripple-source placeholder selection-item"
+  ></div>
+  <div
+    [class.animating]="animate"
+    class="ripple-source ripple-source-second placeholder selection-item"
+  ></div>
+  <div
+    [class.animating]="animate"
+    class="ripple-source ripple-source-third placeholder selection-item"
+  ></div>
+  <ng-template #placeholder>
+    <div class="selection-item placeholder"></div>
+  </ng-template>
 </div>
-<ng-template #placeholder>
-  <div class="selection-item placeholder"></div>
-</ng-template>
